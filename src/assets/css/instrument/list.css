@@ -1,0 +1,86 @@
+.search {
+  background-color: white;
+  width: 100%;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.search > .item {
+  width: 97%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-block;
+}
+
+.search > .item.bottom_line {
+  border-bottom: dashed 1px #e2e2e2;
+}
+
+.search > .item > .label {
+  line-height: 50px;
+  position: relative;
+  float: left;
+}
+
+.search > .item > .types {
+  position: relative;
+  float: left;
+  width: 90%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-top: 25px;
+}
+
+.search > .item > .types > .type {
+  position: relative;
+  float: left;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0px 10px;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+
+.search > .item > .types > .type.active {
+  background-color: #409EFF;
+  color: white;
+  border-radius: 3px;
+}
+
+.search > .item > .sw {
+  position: relative;
+  line-height: 50px;
+  left: 15px;
+}
+
+/* 仪器列表*/
+.list {
+  width: 100%;
+  background-color: white;
+  margin-top: 10px;
+}
+
+.list > .tip {
+  line-height: 50px;
+  border-bottom: solid 1px #e6e6e6;
+  font-weight: 700;
+  font-size: 14px;
+  padding-left: 15px;
+}
+
+.list > .tip > .el-button {
+  position: relative;
+  float: right;
+  top: 50%;
+  transform: translateY(50%);
+  right: 20px;
+}
+
+.list-table {
+  width: 95%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+}

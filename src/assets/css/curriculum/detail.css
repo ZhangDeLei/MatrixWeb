@@ -1,0 +1,71 @@
+
+/*仪器信息*/
+.name {
+  width: 100%;
+  line-height: 60px;
+  background-color: white;
+}
+
+.name > label {
+  margin-left: 15px;
+  font-size: 20px;
+}
+
+.subinfo {
+  background-color: white;
+  margin-top: 10px;
+}
+
+.el-col {
+  padding: 20px 0px;
+}
+
+.price {
+  width: 100%;
+  text-align: center;
+}
+
+.price > .label {
+  font-size: 12px;
+  color: #999999;
+}
+
+.price > .money {
+  font-weight: 500;
+}
+
+.price.line {
+  border-right: solid 1px #e2e2e2;
+}
+
+/* 仪器列表*/
+.list {
+  width: 100%;
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.list > .tip {
+  line-height: 50px;
+  border-bottom: solid 1px #e6e6e6;
+  font-weight: 700;
+  font-size: 14px;
+  padding-left: 15px;
+}
+
+.list > .tip > .el-button {
+  position: relative;
+  float: right;
+  top: 50%;
+  transform: translateY(50%);
+  right: 20px;
+}
+
+.list-table {
+  width: 95%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+}
