@@ -3,26 +3,18 @@ import Vuex from 'vuex'
 import * as types from './types'
 
 Vue.use(Vuex)
+
 export default new Vuex.Store({
   state: {
     user: {
-      get id() {
+      get Id() {
         return localStorage.getItem('id')
       },
-      get userName() {
-        return localStorage.getItem('userName')
+      get NickName() {
+        return localStorage.getItem('NickName')
       },
-      get userAccount() {
-        return localStorage.getItem('userAccount')
-      },
-      get ROLES() {
-        return localStorage.getItem('roles')
-      },
-      get orgId() {
-        return localStorage.getItem('orgId')
-      },
-      get orgName() {
-        return localStorage.getItem('orgName')
+      get UserName() {
+        return localStorage.getItem('UserName')
       }
     },
     get token() {
@@ -32,21 +24,18 @@ export default new Vuex.Store({
   },
   mutations: {
     [types.LOGIN]: (state, data) => {
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('id', data.id)
-      localStorage.setItem('userName', data.userName)
-      localStorage.setItem('userAccount', data.username)
-      localStorage.setItem('orgId', data.orgId)
-      localStorage.setItem('orgName', data.orgName)
-      let roles = ''
-      data.authorities.forEach(t => {
-        if (roles.length > 0) roles += ','
-        roles += t.authority
-      })
-      localStorage.setItem('roles', roles)
+      localStorage.setItem('UserName', data.UserName)
+      localStorage.setItem('NickName', data.NickName)
+    },
+    [types.TOKEN]: (state, data) => {
+      localStorage.setItem('token', data.access_token)
+      localStorage.setItem('Id', data.user_id)
     },
     [types.LOGOUT]: (state) => {
       localStorage.removeItem('token')
+      localStorage.removeItem('NickName')
+      localStorage.removeItem('UserName')
+      localStorage.removeItem('Id')
     }
   }
 })

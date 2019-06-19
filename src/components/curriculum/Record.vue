@@ -8,6 +8,7 @@
           <el-input size="mini" style="width: 200px" placeholder="不限"></el-input>
           <label style="margin-left: 20px">耗材名称：</label>
           <el-input size="mini" style="width: 200px" placeholder="不限"></el-input>
+          <el-button size="mini" type="primary">查询</el-button>
         </div>
       </div>
     </div>

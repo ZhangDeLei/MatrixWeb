@@ -25,44 +25,56 @@ import ConCollar from '@/components/consumables/Collar'
 import CurList from '@/components/curriculum/List'
 import CurDetail from '@/components/curriculum/Detail'
 import CurRecord from '@/components/curriculum/Record'
+import store from "../store/store";
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/main',
-      name: 'Main',
-      component: Main,
-      children: [
-        {path: '/index', name: 'Index', component: Index},
-        // 仪器
-        {path: '/inst/list', name: 'InstList', component: InstList},
-        {path: '/inst/detail', name: 'InstDetail', component: InstDetail},
-        {path: '/inst/subscribe', name: 'InstSubscribe', component: InstSubscribe},
-        // 耗材
-        {path: '/con/list', name: 'ConList', component: ConList},
-        {path: '/con/collar', name: 'ConCollar', component: ConCollar},
-        // 课程
-        {path: '/cur/list', name: 'CurList', component: CurList},
-        {path: '/cur/detail', name: 'CurDetail', component: CurDetail},
-        {path: '/cur/record', name: 'CurRecord', component: CurRecord},
-        // 平台资源
-        {path: '/platform/ptfunc', name: 'PtFunc', component: PtFunc},
-        {path: '/platform/ptfunctype', name: 'PtFuncType', component: PtFuncType},
-        {path: '/platform/ptlog', name: 'PtLog', component: PtLog},
-        {path: '/platform/ptnotice', name: 'PtNotice', component: PtNotice},
-        {path: '/platform/ptrole', name: 'PtRole', component: PtRole},
-        {path: '/platform/ptrolegroup', name: 'PtRoleGroup', component: PtRoleGroup},
-        {path: '/platform/ptsystem', name: 'PtSystem', component: PtSystem},
-        {path: '/platform/ptuser', name: 'PtUser', component: PtUser},
-        {path: '/platform/ptusergroup', name: 'PtUserGroup', component: PtUserGroup}
-      ]
+const routes = [
+  {
+    path: '/',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/main',
+    name: 'Main',
+    component: Main,
+    children: [
+      {path: '', redirect: '/index'},
+      {path: '/index', name: 'Index', component: Index},
+      // 仪器
+      {path: '/inst/list', name: 'InstList', component: InstList},
+      {path: '/inst/detail', name: 'InstDetail', component: InstDetail},
+      {path: '/inst/subscribe', name: 'InstSubscribe', component: InstSubscribe},
+      // 耗材
+      {path: '/con/list', name: 'ConList', component: ConList},
+      {path: '/con/collar', name: 'ConCollar', component: ConCollar},
+      // 课程
+      {path: '/cur/list', name: 'CurList', component: CurList},
+      {path: '/cur/detail', name: 'CurDetail', component: CurDetail},
+      {path: '/cur/record', name: 'CurRecord', component: CurRecord},
+      // 平台资源
+      {path: '/platform/ptfunc', name: 'PtFunc', component: PtFunc},
+      {path: '/platform/ptfunctype', name: 'PtFuncType', component: PtFuncType},
+      {path: '/platform/ptlog', name: 'PtLog', component: PtLog},
+      {path: '/platform/ptnotice', name: 'PtNotice', component: PtNotice},
+      {path: '/platform/ptrole', name: 'PtRole', component: PtRole},
+      {path: '/platform/ptrolegroup', name: 'PtRoleGroup', component: PtRoleGroup},
+      {path: '/platform/ptsystem', name: 'PtSystem', component: PtSystem},
+      {path: '/platform/ptuser', name: 'PtUser', component: PtUser},
+      {path: '/platform/ptusergroup', name: 'PtUserGroup', component: PtUserGroup}
+    ]
+  }]
+const router = new Router({mode: 'history', routes: routes})
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.state.token) {
+      next()
+    } else {
+      next({path: '/', query: {redirect: to.fullPath}})
     }
-  ]
+  } else {
+    next()
+  }
 })
+export default router

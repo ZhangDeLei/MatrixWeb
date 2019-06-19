@@ -1,3 +1,8 @@
 export default {
-  name: 'PtNotice'
+  name: 'PtNotice',
+  data() {
+    return {
+      list: [0, 0, 0, 0, 0, 0]
+    }
+  }
 }

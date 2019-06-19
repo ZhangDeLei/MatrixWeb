@@ -7,16 +7,16 @@
         </div>
 
         <div class="login100-form validate-form">
-          <span class="login100-form-title">会员登陆</span>
+          <span class="login100-form-title">用户登录</span>
           <div class="wrap-input100 validate-input">
-            <input class="input100" type="text" name="email" placeholder="邮箱">
+            <input class="input100" type="text" name="email" placeholder="账号" v-model="loginForm.username">
             <span class="focus-input100"></span>
             <span class="symbol-input100">
-						<i class="fa fa-envelope" aria-hidden="true"></i>
+						<i class="el-icon-user" aria-hidden="true"></i>
 					</span>
           </div>
           <div class="wrap-input100 validate-input">
-            <input class="input100" type="password" name="pass" placeholder="密码">
+            <input class="input100" type="password" name="pass" placeholder="密码" v-model="loginForm.password">
             <span class="focus-input100"></span>
             <span class="symbol-input100">
 						<i class="fa fa-lock" aria-hidden="true"></i>

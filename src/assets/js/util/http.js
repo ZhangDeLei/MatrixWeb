@@ -11,7 +11,7 @@ var instance = axios.create({
 instance.interceptors.request.use(config => {
   config.data = JSON.stringify(config.data)
   if (store.state.token) {
-    config.headers['Authorization'] = store.state.token
+    config.headers['Authorization'] = 'Bearer ' + store.state.token
   }
   config.headers['Content-Type'] = 'application/json;charset=UTF-8'
   config.headers['Access-Control-Allow-Origin'] = '*'
@@ -57,6 +57,12 @@ export default {
   },
   post(url, param) {
     return instance.post(url, param)
+  },
+  put(url, param) {
+    return instance.put(url, param)
+  },
+  dele(url, param) {
+    return instance.delete(url, param)
   }
 }
 
