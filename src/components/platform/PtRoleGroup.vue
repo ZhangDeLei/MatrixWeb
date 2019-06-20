@@ -37,8 +37,7 @@
           <el-table-column label="系统名称" prop="SystemName"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" @click="openRoleGroupDialog(scope.row)">编辑</el-button>
-              <el-button type="text" @click="deleteRow(scope.row.Id)">删除</el-button>
+              <el-button type="text" @click="openRoleGroupDialog(scope.row)">详细</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -70,6 +69,10 @@
       </el-form>
       <el-button size="mini" @click="openRoleGroupDialog({})">取消</el-button>
       <el-button size="mini" @click="confirm" type="primary">保存</el-button>
+      <el-button size="mini" @click="deleteRow" type="danger">删除</el-button>
+      <div style="margin-top: 10px">
+        <el-transfer :data="roleData" v-model="checkRoleData" :titles="['角色列表','已选角色']" @change="handlerRoleChange"></el-transfer>
+      </div>
     </el-dialog>
   </div>
 </template>

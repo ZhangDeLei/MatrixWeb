@@ -85,7 +85,7 @@
           <el-table-column label="操作" width="130px">
             <template slot-scope="scope">
               <el-button type="text" @click="openUserDialog(scope.row)">详细</el-button>
-              <el-button type="text">权限管理</el-button>
+              <el-button type="text" @click="openPowerDialog(scope.row)">权限管理</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -100,6 +100,21 @@
         </el-pagination>
       </div>
     </div>
+    <!--权限管理-->
+    <el-dialog title="权限管理" :visible.sync="showPowerDialog">
+      <el-select placeholder="请选择来源系统" style="margin-bottom: 10px" @change="handlerChangePower">
+        <el-option v-for="item in systemList" :label="item.Name" :value="item.Id" :key="item.Id"></el-option>
+      </el-select>
+      <el-tabs v-model="activeName" type="card">
+        <el-tab-pane label="角色" name="first">
+          <el-transfer v-model="checkRoleData" :data="roleData" :titles="['角色列表','已选角色']"
+                       @change="handlerRoleChange"></el-transfer>
+        </el-tab-pane>
+        <el-tab-pane label="角色组" name="second">
+          <el-transfer v-model="checkRoleGroupData" :data="roleGroupData" :titles="['角色组列表','已选角色组']"></el-transfer>
+        </el-tab-pane>
+      </el-tabs>
+    </el-dialog>
     <!--用户编辑-->
     <el-dialog :visible.sync="showEditUserDialog" width="80%">
       <div class="user-content">
@@ -107,23 +122,24 @@
           <el-row>
             <el-col :span="12">
               <div class="tip">基本信息</div>
-              <el-form ref="userForm" :model="userForm" rel="userForm" label-width="80px" size="mini">
-                <el-form-item label="用户名">
+              <el-form ref="userForm" :model="userForm" label-width="80px" size="mini" :rules="rules">
+                <el-form-item label="用户名" prop="UserName">
                   <el-input v-model="userForm.UserName"></el-input>
                 </el-form-item>
-                <el-form-item label="昵称">
+                <el-form-item label="昵称" prop="NickName">
                   <el-input v-model="userForm.NickName"></el-input>
                 </el-form-item>
-                <el-form-item label="用户组">
+                <el-form-item label="用户组" prop="UserGroupId">
                   <el-cascader
                     v-model="userForm.UserGroupId"
-                    :options="options"
-                    :props="{ expandTrigger: 'hover' }"
+                    :options="groupList"
+                    :props="{ expandTrigger: 'hover' ,label:'Name',value:'Id',checkStrictly: true}"
                     @change="handleUserGroupChange"></el-cascader>
                 </el-form-item>
-                <el-form-item label="来源系统">
+                <el-form-item label="来源系统" prop="SystemId">
                   <el-select placeholder="请选择来源系统" v-model="userForm.SystemId">
-                    <el-option v-for="item in systemList" :label="item.Name" :value="item.Id" :key="item.Id"></el-option>
+                    <el-option v-for="item in systemList" :label="item.Name" :value="item.Id"
+                               :key="item.Id"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="状态">
@@ -145,38 +161,46 @@
               <div class="tip">详细信息</div>
               <el-form ref="userForm" :model="userForm" label-width="80px" size="mini">
                 <el-form-item label="性别">
-                  <el-radio-group v-model="userForm.sex">
-                    <el-radio :label="3">男士</el-radio>
-                    <el-radio :label="9">女士</el-radio>
+                  <el-radio-group v-model="userForm.Sex">
+                    <el-radio label="男士">男士</el-radio>
+                    <el-radio label="女士">女士</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="出生年月">
                   <el-date-picker
-                    v-model="value1"
+                    v-model="userForm.Birth"
                     type="date"
                     placeholder="选择日期">
                   </el-date-picker>
                 </el-form-item>
                 <el-form-item label="手机">
-                  <el-input type=""></el-input>
+                  <el-input type="手机" v-model="userForm.Tel"></el-input>
                 </el-form-item>
                 <el-form-item
-                  prop="email"
                   label="邮箱"
-                  :rules="[{ type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
-                  <el-input v-model="userForm.email"></el-input>
+                  prop="Email"
+                  :rules="[{ type: 'Email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
+                  <el-input v-model="userForm.Email"></el-input>
                 </el-form-item>
                 <el-form-item label="区域">
-                  <el-select v-model="userForm.region" placeholder="请选择活动区域">
+                  <el-select v-model="userForm.Country" placeholder="国家" style="width:30%">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                  </el-select>
+                  <el-select v-model="userForm.Province" placeholder="省" style="width:30%">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                  </el-select>
+                  <el-select v-model="userForm.City" placeholder="市" style="width:30%">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="详细地址">
-                  <el-input></el-input>
+                  <el-input v-model="userForm.Address"></el-input>
                 </el-form-item>
                 <el-form-item label="邮编">
-                  <el-input></el-input>
+                  <el-input v-model="userForm.ZipCode"></el-input>
                 </el-form-item>
               </el-form>
             </el-col>
@@ -184,19 +208,19 @@
               <div class="tip">认证信息</div>
               <el-form ref="userForm" :model="userForm" label-width="90px" size="mini">
                 <el-form-item label="真实姓名">
-                  <el-input v-model="userForm.name"></el-input>
+                  <el-input v-model="userForm.RealName"></el-input>
                 </el-form-item>
                 <el-form-item label="证件类型">
-                  <el-select v-model="userForm.region" placeholder="证件类型">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                  <el-select v-model="userForm.IdType" placeholder="证件类型">
+                    <el-option label="身份证" value="身份证"></el-option>
+                    <el-option label="学生证" value="学生证"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="证件号码">
-                  <el-input v-model="userForm.name"></el-input>
+                  <el-input v-model="userForm.IdNumber"></el-input>
                 </el-form-item>
                 <el-form-item label="支付宝账号">
-                  <el-input v-model="userForm.name"></el-input>
+                  <el-input v-model="userForm.AlipayAccount"></el-input>
                 </el-form-item>
               </el-form>
             </el-col>

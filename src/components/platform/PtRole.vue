@@ -34,12 +34,10 @@
             </template>
           </el-table-column>
           <el-table-column label="备注" prop="Notes"></el-table-column>
-          <el-table-column label="操作" width="200px">
+          <el-table-column label="操作" width="150px">
             <template slot-scope="scope">
+              <el-button type="text" @click="openRoleDialog(scope.row)">详细</el-button>
               <el-button type="text" @click="openRoleDataDialog(scope.row)">自定义数据</el-button>
-              <el-button type="text" @click="openRolePowerDialog(scope.row)">授权</el-button>
-              <el-button type="text" @click="openRoleDialog(scope.row)">编辑</el-button>
-              <el-button type="text" @click="deleteRow(scope.row.Id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -56,6 +54,22 @@
     </div>
     <!--角色详情-->
     <el-dialog title="角色详情" :visible.sync="showRoleDataDialog" width="60%">
+      <el-row>
+        <el-col :span="8">
+          <div class="jsonlist">
+            <div class="item" v-for="item in roleDataList.list" @click="checkJsonData(item)">{{item.Code}}</div>
+          </div>
+        </el-col>
+        <el-col :span="16">
+          <div class="jsondetail">
+            <textarea style="height: 85%; width: 100%;border: none;" placeholder="请输入JsonData" v-model="roleDataForm.JsonData"></textarea>
+            <el-button type="primary" @click="openRoleDataEditDialog">新增</el-button>
+            <el-button @click="updateRoleData">保存</el-button>
+            <el-button type="info" @click="resetRoleData">重置</el-button>
+            <el-button type="danger" @click="deleteRoleData">删除</el-button>
+          </div>
+        </el-col>
+      </el-row>
       <el-dialog
         width="50%"
         title="角色详情编辑"
@@ -72,45 +86,45 @@
         <el-button size="mini" @click="openRoleDataEditDialog({})">取消</el-button>
         <el-button size="mini" @click="confirmRoleData" type="primary">保存</el-button>
       </el-dialog>
-      <el-button type="primary" size="mini" @click="openRoleDataEditDialog({})">新增</el-button>
-      <el-table :data="roleDataList.list" height="300px">
-        <el-table-column label="编码" prop="Code"></el-table-column>
-        <el-table-column label="JsonData" prop="JsonData"></el-table-column>
-        <el-table-column label="操作" width="200px">
-          <template slot-scope="scope">
-            <el-button type="text" @click="openRoleDataEditDialog(scope.row)">编辑</el-button>
-            <el-button type="text" @click="deleteRoleDataRow(scope.row.Id)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        @size-change="getRoleData"
-        @current-change="getRoleData"
-        :page-size="pageSize"
-        layout="prev, pager, next, jumper"
-        :total="roleDataList.RecordCount">
-      </el-pagination>
     </el-dialog>
     <!--角色编辑-->
     <el-dialog title="角色编辑" :visible.sync="showRoleDialog">
-      <el-form label-width="80px" ref="roleFrom" :model="roleFrom" :rules="rules" size="mini">
-        <el-form-item label="名称" prop="Name">
-          <el-input placeholder="请输入名称" v-model="roleFrom.Name"></el-input>
-        </el-form-item>
-        <el-form-item label="系统编号" prop="SystemId">
-          <el-select placeholder="请选择系统编号" v-model="roleFrom.SystemId" @change="handlerChangeSystem">
-            <el-option v-for="item in systemList" :value="item.Id" :label="item.Name" :key="item.Id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-switch v-model="roleFrom.State"></el-switch>
-        </el-form-item>
-        <el-form-item label="描述" prop="Notes">
-          <el-input placeholder="请输入描述" v-model="roleFrom.Notes"></el-input>
-        </el-form-item>
-      </el-form>
-      <el-button size="mini" @click="openRoleDialog({})">取消</el-button>
-      <el-button size="mini" @click="confirm" type="primary">保存</el-button>
+      <el-row>
+        <el-col :span="12">
+          <el-form label-width="80px" ref="roleFrom" :model="roleFrom" :rules="rules" size="mini">
+            <el-form-item label="名称" prop="Name">
+              <el-input placeholder="请输入名称" v-model="roleFrom.Name"></el-input>
+            </el-form-item>
+            <el-form-item label="系统编号" prop="SystemId">
+              <el-select placeholder="请选择系统编号" v-model="roleFrom.SystemId" @change="handlerChangeSystem">
+                <el-option v-for="item in systemList" :value="item.Id" :label="item.Name" :key="item.Id"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="状态">
+              <el-switch v-model="roleFrom.State"></el-switch>
+            </el-form-item>
+            <el-form-item label="描述" prop="Notes">
+              <el-input placeholder="请输入描述" v-model="roleFrom.Notes"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button size="mini" @click="openRoleDialog({})">返回</el-button>
+          <el-button size="mini" @click="confirm" type="primary">保存</el-button>
+          <el-button size="mini" type="danger" @click="deleteRole">删除</el-button>
+        </el-col>
+        <el-col :span="12">
+          <div class="roleTree">
+            <el-tree
+              default-expand-all
+              :data="funcdata"
+              show-checkbox
+              node-key="Id"
+              :default-checked-keys="defaultCheckKeys"
+              :props="defaultProps"
+              @check-change="handlerChangeCheckNode">
+            </el-tree>
+          </div>
+        </el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
