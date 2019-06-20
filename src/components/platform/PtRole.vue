@@ -36,7 +36,7 @@
           <el-table-column label="备注" prop="Notes"></el-table-column>
           <el-table-column label="操作" width="200px">
             <template slot-scope="scope">
-              <el-button type="text" @click="openRoleDataDialog(scope.row)">详情</el-button>
+              <el-button type="text" @click="openRoleDataDialog(scope.row)">自定义数据</el-button>
               <el-button type="text" @click="openRolePowerDialog(scope.row)">授权</el-button>
               <el-button type="text" @click="openRoleDialog(scope.row)">编辑</el-button>
               <el-button type="text" @click="deleteRow(scope.row.Id)">删除</el-button>
@@ -54,11 +54,6 @@
         </el-pagination>
       </div>
     </div>
-    <!--角色授权-->
-    <el-dialog title="角色授权" :visible.sync="showRolePowerDialog">
-      <el-button size="mini" @click="openRolePowerDialog({})">取消</el-button>
-      <el-button size="mini" @click="confirmPower" type="primary">保存</el-button>
-    </el-dialog>
     <!--角色详情-->
     <el-dialog title="角色详情" :visible.sync="showRoleDataDialog" width="60%">
       <el-dialog

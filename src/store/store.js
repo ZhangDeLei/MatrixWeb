@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     user: {
       get Id() {
-        return localStorage.getItem('id')
+        return localStorage.getItem('Id')
       },
       get NickName() {
         return localStorage.getItem('NickName')
@@ -24,12 +24,12 @@ export default new Vuex.Store({
   },
   mutations: {
     [types.LOGIN]: (state, data) => {
+      localStorage.setItem('Id', data.Id)
       localStorage.setItem('UserName', data.UserName)
       localStorage.setItem('NickName', data.NickName)
     },
     [types.TOKEN]: (state, data) => {
       localStorage.setItem('token', data.access_token)
-      localStorage.setItem('Id', data.user_id)
     },
     [types.LOGOUT]: (state) => {
       localStorage.removeItem('token')

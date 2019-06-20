@@ -95,6 +95,7 @@
               <el-menu-item index="4-7" @click="gotoPage('/platform/ptsystem')">系统列表</el-menu-item>
               <el-menu-item index="4-8" @click="gotoPage('/platform/ptlog')">日志管理</el-menu-item>
               <el-menu-item index="4-9" @click="gotoPage('/platform/ptnotice')">通知管理</el-menu-item>
+              <el-menu-item index="4-10" @click="gotoPage('/platform/ptbill')">消费</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

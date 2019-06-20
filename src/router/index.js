@@ -14,6 +14,7 @@ import PtRoleGroup from '@/components/platform/PtRoleGroup'
 import PtSystem from '@/components/platform/PtSystem'
 import PtUser from '@/components/platform/PtUser'
 import PtUserGroup from '@/components/platform/PtUserGroup'
+import PtBill from '@/components/platform/PtBill'
 // 仪器
 import InstList from '@/components/instrument/List'
 import InstDetail from '@/components/instrument/Detail'
@@ -25,7 +26,7 @@ import ConCollar from '@/components/consumables/Collar'
 import CurList from '@/components/curriculum/List'
 import CurDetail from '@/components/curriculum/Detail'
 import CurRecord from '@/components/curriculum/Record'
-import store from "../store/store";
+import store from '../store/store';
 
 Vue.use(Router)
 
@@ -62,7 +63,8 @@ const routes = [
       {path: '/platform/ptrolegroup', name: 'PtRoleGroup', component: PtRoleGroup},
       {path: '/platform/ptsystem', name: 'PtSystem', component: PtSystem},
       {path: '/platform/ptuser', name: 'PtUser', component: PtUser},
-      {path: '/platform/ptusergroup', name: 'PtUserGroup', component: PtUserGroup}
+      {path: '/platform/ptusergroup', name: 'PtUserGroup', component: PtUserGroup},
+      {path: '/platform/ptbill', name: 'PtBill', component: PtBill}
     ]
   }]
 const router = new Router({mode: 'history', routes: routes})
