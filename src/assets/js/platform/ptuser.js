@@ -114,12 +114,14 @@ export default {
       if (direction === 'right') {
         movedKeys.forEach(t => {
           this.http.post('api/v1/PtUserLink', {UserId: this.userForm.Id, RoleId: t}).then(res => {
+            this.getUserRoleInfo(this.userForm.Id)
           })
         })
       } else {
         this.checkRoleList.forEach(t => {
           if (t.UserId === this.userForm.Id && this.checkRoleData.indexOf(t.RoleId)) {
             this.http.dele('api/v1/PtUserLink/' + t.Id).then(res => {
+              this.getUserRoleInfo(this.userForm.Id)
             })
           }
         })

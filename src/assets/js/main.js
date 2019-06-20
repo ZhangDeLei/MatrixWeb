@@ -5,18 +5,40 @@ export default {
   data() {
     return {
       collapse: true,
-      username: ''
+      username: '',
+      systemName: '',
+      menuList: []
     }
   },
   mounted() {
     this.username = this.store.state.user.NickName
+    this.systemName = this.store.state.user.SystemName
+    this.getUserMenu()
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
+    getUserMenu() {
+      var userId = this.store.state.user.Id
+      var systemId = this.store.state.user.SystemId
+      this.http.post('api/v1/PtFunc/GetUserFunc?UserId=' + userId + '&SystemId=' + systemId, []).then(res => {
+        res.forEach(t => {
+          if (t.ParentId === '0') {
+            var children = this.convertMenuTree(res, t)
+            t.children = children
+            this.menuList.push(t)
+          }
+        })
+      })
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
+    convertMenuTree(list, item) {
+      var data = []
+      list.forEach(t => {
+        if (t.ParentId === item.Id) {
+          var ch = this.convertMenuTree(list, t)
+          t.children = ch
+          data.push(t)
+        }
+      })
+      return data
     },
     gotoPage(url) {
       this.$router.push(url)

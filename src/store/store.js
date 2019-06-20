@@ -15,6 +15,12 @@ export default new Vuex.Store({
       },
       get UserName() {
         return localStorage.getItem('UserName')
+      },
+      get SystemId() {
+        return localStorage.getItem('SystemId')
+      },
+      get SystemName() {
+        return localStorage.getItem('SystemName')
       }
     },
     get token() {
@@ -27,6 +33,8 @@ export default new Vuex.Store({
       localStorage.setItem('Id', data.Id)
       localStorage.setItem('UserName', data.UserName)
       localStorage.setItem('NickName', data.NickName)
+      localStorage.setItem('SystemId', data.SystemId)
+      localStorage.setItem('SystemName', data.SystemName)
     },
     [types.TOKEN]: (state, data) => {
       localStorage.setItem('token', data.access_token)

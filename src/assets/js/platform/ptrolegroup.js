@@ -8,6 +8,7 @@ export default {
       systemList: [],
       roleData: [],
       checkRoleData: [],
+      checkRoleList: [],
       searchForm: {},
       roleGroupForm: {},
       pageSize: 20,
@@ -35,6 +36,18 @@ export default {
         this.loading = false
       })
     },
+    getRoleGroupBySystem(groupId) {
+      return new Promise((resolve, reject) => {
+        var form = {CurPage: 1, PageSize: 1000, RoleGroupId: groupId}
+        this.http.post('api/v1/PtRoleGroupLink/GetPageData', form).then(res => {
+          res.list.forEach(t => {
+            this.checkRoleData.push(t.RoleId)
+          })
+          this.checkRoleList = res.list
+          resolve()
+        })
+      })
+    },
     getAllSystem() {
       this.http.get('api/v1/PtSystem').then(res => {
         this.systemList = res
@@ -55,7 +68,7 @@ export default {
       this.showRoleGroupDialog = !this.showRoleGroupDialog
       this.roleGroupForm = obj
       if (obj.Id) {
-        this.getRoleBySystem(obj.SystemId)
+        this.getRoleGroupBySystem(obj.Id).then(() => this.getRoleBySystem(obj.SystemId))
       }
     },
     handlerChangeSystem(e) {
@@ -66,7 +79,21 @@ export default {
       })
     },
     handlerRoleChange(value, direction, movedKeys) {
-      console.log(value, direction, movedKeys)
+      if (direction === 'right') {
+        movedKeys.forEach(t => {
+          this.http.post('api/v1/PtRoleGroupLink', {RoleGroupId: this.roleGroupForm.Id, RoleId: t}).then(res => {
+            this.getRoleGroupBySystem(this.roleGroupForm.Id)
+          })
+        })
+      } else {
+        this.checkRoleList.forEach(t => {
+          if (t.RoleGroupId === this.roleGroupForm.Id && movedKeys.indexOf(t.RoleId) >= 0) {
+            this.http.dele('api/v1/PtRoleGroupLink/' + t.Id).then(res => {
+              this.getRoleGroupBySystem(this.roleGroupForm.Id)
+            })
+          }
+        })
+      }
     },
     deleteRow() {
       if (this.roleGroupForm.Id) {
