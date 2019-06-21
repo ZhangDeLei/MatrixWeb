@@ -28,7 +28,13 @@ export default {
       this.loading = true
       this.searchForm.CurPage = curPage
       this.searchForm.PageSize = this.pageSize
-      console.log(this.begEndDate)
+      if (this.begEndDate != null && this.begEndDate.length !== undefined && this.begEndDate.length > 0) {
+        this.searchForm.BeginDate = this.begEndDate[0]
+        this.searchForm.EndDate = this.begEndDate[1]
+      } else {
+        this.searchForm.BeginDate = null
+        this.searchForm.EndDate = null
+      }
       this.http.post('api/v1/PtNotice/GetPageData', this.searchForm).then(res => {
         this.list = res
       }).finally(() => {

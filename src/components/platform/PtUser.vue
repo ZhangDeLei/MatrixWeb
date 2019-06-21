@@ -112,15 +112,14 @@
       <el-select placeholder="请选择来源系统" style="margin-bottom: 10px" @change="handlerChangePower" v-model="systemId">
         <el-option v-for="item in systemList" :label="item.Name" :value="item.Id" :key="item.Id"></el-option>
       </el-select>
-      <el-tabs v-model="activeName" type="card">
-        <el-tab-pane label="角色" name="first">
-          <el-transfer v-model="checkRoleData" :data="roleData" :titles="['角色列表','已选角色']"
-                       @change="handlerRoleChange"></el-transfer>
-        </el-tab-pane>
-        <el-tab-pane label="角色组" name="second">
-          <el-transfer v-model="checkRoleGroupData" :data="roleGroupData" :titles="['角色组列表','已选角色组']"></el-transfer>
-        </el-tab-pane>
-      </el-tabs>
+      <el-select placeholder="请选择角色组" style="margin-bottom: 10px" v-model="roleGroupId" clearable>
+        <el-option v-for="item in roleGroupData" :label="item.Name" :value="item.Id" :key="item.Id"></el-option>
+      </el-select>
+      <el-button type="primary" @click="fastImportRole">快速导入</el-button>
+      <div>
+        <el-transfer v-model="checkRoleData" :data="roleData" :titles="['角色列表','已选角色']"
+                     @change="handlerRoleChange"></el-transfer>
+      </div>
     </el-dialog>
     <!--用户编辑-->
     <el-dialog :visible.sync="showEditUserDialog" width="80%">

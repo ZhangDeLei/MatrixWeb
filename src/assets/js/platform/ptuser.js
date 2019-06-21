@@ -26,8 +26,8 @@ export default {
       checkRoleData: [],
       checkRoleList: [],
       roleGroupData: [],
-      checkRoleGroupData: [],
-      systemId: ''
+      systemId: '',
+      roleGroupId: undefined
     }
   },
   mounted() {
@@ -36,6 +36,25 @@ export default {
     this.getData(1)
   },
   methods: {
+    fastImportRole() {
+      if (this.roleGroupId) {
+        this.http.post('api/v1/PtRoleGroupLink/GetPageData', {
+          CurPage: 1,
+          PageSize: 1000,
+          RoleGroupId: this.roleGroupId
+        }).then(res => {
+          if (res.list.length > 0) {
+            res.list.forEach(t => {
+              this.http.post('api/v1/PtUserLink', {UserId: this.userForm.Id, RoleId: t.RoleId}).then(rs => {
+                this.getUserRoleInfo(this.userForm.Id)
+              })
+            })
+          }
+        })
+      } else {
+        this.$message.error('请先选择一个角色组')
+      }
+    },
     getAllRoleBySystem(systemId) {
       var form = {CurPage: 1, PageSize: 1000, SystemId: systemId}
       this.http.post('api/v1/PtRole/GetPageData', form).then(res => {
@@ -47,9 +66,7 @@ export default {
     getAllRoleGroupBySystem(systemId) {
       var form = {CurPage: 1, PageSize: 1000, SystemId: systemId}
       this.http.post('api/v1/PtRoleGroup/GetPageData', form).then(res => {
-        res.list.forEach(t => {
-          this.roleGroupData.push({key: t.Id, label: t.Name})
-        })
+        this.roleGroupData = res.list
       })
     },
     getUserRoleInfo(userId) {
@@ -72,6 +89,13 @@ export default {
       this.loading = true
       this.searchForm.CurPage = curPage
       this.searchForm.PageSize = this.pageSize
+      if (this.begEndDate != null && this.begEndDate.length !== undefined && this.begEndDate.length > 0) {
+        this.searchForm.BeginDate = this.begEndDate[0]
+        this.searchForm.EndDate = this.begEndDate[1]
+      } else {
+        this.searchForm.BeginDate = null
+        this.searchForm.EndDate = null
+      }
       this.http.post('api/v1/PtUser/GetPageData', this.searchForm).then(res => {
         this.list = res
       }).finally(() => {
@@ -118,9 +142,7 @@ export default {
     },
     handlerChangePower(e) {
       this.roleData = []
-      this.roleGroupData = []
       this.checkRoleData = []
-      this.checkRoleGroupData = []
       this.getUserRoleInfo(this.userForm.Id).then(res => {
         this.getAllRoleBySystem(e)
       })

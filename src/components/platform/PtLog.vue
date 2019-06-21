@@ -6,11 +6,11 @@
           <el-form-item label="编号">
             <el-input placeholder="编号" style="width:200px" v-model="searchForm.Id"></el-input>
           </el-form-item>
-          <el-form-item label="分类">
-            <el-select placeholder="分类" v-model="searchForm.LogTypeId">
-              <el-option></el-option>
-            </el-select>
-          </el-form-item>
+          <!--<el-form-item label="分类">-->
+            <!--<el-select placeholder="分类" v-model="searchForm.LogTypeId">-->
+              <!--<el-option></el-option>-->
+            <!--</el-select>-->
+          <!--</el-form-item>-->
           <el-form-item label="内容">
             <el-input placeholder="内容" v-model="searchForm.Content"></el-input>
           </el-form-item>

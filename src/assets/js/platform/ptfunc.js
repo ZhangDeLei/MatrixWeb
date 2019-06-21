@@ -109,6 +109,8 @@ export default {
             }
           } else if (type === 'string') {
             this.funcForm.ParentId = this.funcForm.ParentId
+          } else {
+            this.funcForm.ParentId = 0
           }
           this.http.post('api/v1/PtFunc', this.funcForm).then(res => {
             this.$message.success('保存成功')
