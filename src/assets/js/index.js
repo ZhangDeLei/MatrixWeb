@@ -4,6 +4,7 @@ export default {
   name: 'Index',
   data() {
     return {
+      value1: [],
       activeName: 'first'
     }
   },

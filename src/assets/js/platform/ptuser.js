@@ -11,11 +11,14 @@ export default {
       list: {},
       systemList: [],
       groupList: [],
+      userGroupData: [],
       pageSize: 20,
       rules: {
         UserName: [{required: true, message: '请输入用户名称', trigger: 'blur'}],
         NickName: [{required: true, message: '请输入用户昵称', trigger: 'blur'}],
+        Password: [{required: true, message: '请输入密码', trigger: 'blur'}],
         UserGroupId: [{required: true, message: '请选择用户组', trigger: 'blur'}],
+        State: [{required: true, message: '请选择状态', trigger: 'blur'}],
         SystemId: [{required: true, message: '请选择来源系统', trigger: 'blur'}]
       },
       activeName: 'first',
@@ -23,7 +26,8 @@ export default {
       checkRoleData: [],
       checkRoleList: [],
       roleGroupData: [],
-      checkRoleGroupData: []
+      checkRoleGroupData: [],
+      systemId: ''
     }
   },
   mounted() {
@@ -85,6 +89,7 @@ export default {
           }
         })
         this.groupList = data
+        this.userGroupData = res
       })
     },
     convertGroupTree(list, item) {
@@ -99,6 +104,17 @@ export default {
       return data
     },
     handleUserGroupChange(e) {
+      this.userForm.UserGroupId = 0
+      this.userForm.UserGroupName = ''
+      if (e.length > 0) {
+        var id = e[e.length - 1]
+        this.userGroupData.forEach(t => {
+          if (id === t.Id) {
+            this.userForm.UserGroupId = t.Id
+            this.userForm.UserGroupName = t.Name
+          }
+        })
+      }
     },
     handlerChangePower(e) {
       this.roleData = []
@@ -127,6 +143,13 @@ export default {
         })
       }
     },
+    handlerChangeSystem(e) {
+      this.systemList.forEach(t => {
+        if (e === t.Id) {
+          this.userForm.SystemName = t.Name
+        }
+      })
+    },
     openUserDialog(obj) {
       this.showEditUserDialog = !this.showEditUserDialog
       this.userForm = obj
@@ -134,6 +157,41 @@ export default {
     openPowerDialog(obj) {
       this.userForm = obj
       this.showPowerDialog = !this.showPowerDialog
+      this.systemId = this.userForm.SystemId
+      this.handlerChangePower(this.systemId)
+    },
+    deleteRow() {
+      if (this.userForm.Id) {
+        this.$confirm('确认删除该用户吗？').then(() => {
+          this.http.dele('api/v1/PtUser/' + this.userForm.Id).then(res => {
+            this.$message.success('删除成功')
+            this.openUserDialog({})
+            this.getData(1)
+          })
+        })
+      }
+    },
+    confirm() {
+      this.$refs['userForm'].validate(v => {
+        if (v) {
+          if (this.userForm.Id) {
+            this.http.put('api/v1/PtUser/' + this.userForm.Id, this.userForm).then(res => {
+              this.$message.success('保存成功')
+              this.openUserDialog({})
+              this.getData(1)
+            })
+          } else {
+            var date = new Date()
+            var isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString()
+            this.userForm.CreateTime = isoDate
+            this.http.post('api/v1/PtUser', this.userForm).then(res => {
+              this.$message.success('保存成功')
+              this.openUserDialog({})
+              this.getData(1)
+            })
+          }
+        }
+      })
     }
   }
 }

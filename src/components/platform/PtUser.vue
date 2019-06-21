@@ -13,10 +13,16 @@
             <el-input placeholder="昵称" style="width:150px" v-model="searchForm.NickName"></el-input>
           </el-form-item>
           <el-form-item label="用户组">
-            <el-input placeholder="昵称" style="width:150px" v-model="searchForm.UserGroupName"></el-input>
+            <el-cascader
+              v-model="searchForm.UserGroupId"
+              :options="groupList"
+              :props="{ expandTrigger: 'hover' ,label:'Name',value:'Id',checkStrictly: true}"></el-cascader>
           </el-form-item>
           <el-form-item label="状态">
-            <el-input placeholder="昵称" style="width:150px" v-model="searchForm.UserId"></el-input>
+            <el-select placeholder="状态" v-model="searchForm.State" clearable>
+              <el-option label="可用" value="true"></el-option>
+              <el-option label="不可用" value="false"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="来源系统">
             <el-select placeholder="来源系统" style="width:150px" v-model="searchForm.SystemId" clearable>
@@ -24,10 +30,10 @@
             </el-select>
           </el-form-item>
           <el-form-item label="手机">
-            <el-input placeholder="手机" style="width:150px" v-model="searchForm.Author"></el-input>
+            <el-input placeholder="手机" style="width:150px" v-model="searchForm.Tel"></el-input>
           </el-form-item>
           <el-form-item label="真实姓名">
-            <el-input placeholder="真实姓名" style="width:150px" v-model="searchForm.Author"></el-input>
+            <el-input placeholder="真实姓名" style="width:150px" v-model="searchForm.RealName"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="getData(1)">查询</el-button>
@@ -46,13 +52,13 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="地址">
-            <el-input placeholder="发送者" style="width:400px" v-model="searchForm.Author"></el-input>
+            <el-input placeholder="地址" style="width:400px" v-model="searchForm.Address"></el-input>
           </el-form-item>
           <el-form-item label="邮箱">
-            <el-input placeholder="发送者" style="width:200px" v-model="searchForm.Author"></el-input>
+            <el-input placeholder="邮箱" style="width:200px" v-model="searchForm.Email"></el-input>
           </el-form-item>
           <el-form-item label="证件号码">
-            <el-input placeholder="发送者" style="width:200px" v-model="searchForm.Author"></el-input>
+            <el-input placeholder="证件号码" style="width:200px" v-model="searchForm.IdNumber"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -67,7 +73,7 @@
           :header-cell-style="{background:'#F0F0F0',color:'black',padding:'8px 0px',fontWeight:'100',borderBottom:'solid 2px #e2e2e2',fontWeight:'800',fontSize:'12px'}"
           :cell-style="{color:'black',paddingTop:'0px',paddingBottom:'0px',fontWeight:'500',fontSize:'12px'}"
           :data="list.list"
-          v-loading.loading>
+          v-loading="loading">
           <el-table-column label="头像">
             <template slot-scope="scope">
               <img src="" style="height: 30px;width: 30px;border-radius: 30px;background-color: gray"/>
@@ -102,7 +108,7 @@
     </div>
     <!--权限管理-->
     <el-dialog title="权限管理" :visible.sync="showPowerDialog">
-      <el-select placeholder="请选择来源系统" style="margin-bottom: 10px" @change="handlerChangePower">
+      <el-select placeholder="请选择来源系统" style="margin-bottom: 10px" @change="handlerChangePower" v-model="systemId">
         <el-option v-for="item in systemList" :label="item.Name" :value="item.Id" :key="item.Id"></el-option>
       </el-select>
       <el-tabs v-model="activeName" type="card">
@@ -129,6 +135,9 @@
                 <el-form-item label="昵称" prop="NickName">
                   <el-input v-model="userForm.NickName"></el-input>
                 </el-form-item>
+                <el-form-item label="密码" prop="Password">
+                  <el-input v-model="userForm.Password"></el-input>
+                </el-form-item>
                 <el-form-item label="用户组" prop="UserGroupId">
                   <el-cascader
                     v-model="userForm.UserGroupId"
@@ -137,12 +146,12 @@
                     @change="handleUserGroupChange"></el-cascader>
                 </el-form-item>
                 <el-form-item label="来源系统" prop="SystemId">
-                  <el-select placeholder="请选择来源系统" v-model="userForm.SystemId">
+                  <el-select placeholder="请选择来源系统" v-model="userForm.SystemId" @change="handlerChangeSystem">
                     <el-option v-for="item in systemList" :label="item.Name" :value="item.Id"
                                :key="item.Id"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="状态">
+                <el-form-item label="状态" prop="State">
                   <el-switch v-model="userForm.State"></el-switch>
                 </el-form-item>
               </el-form>
@@ -227,15 +236,10 @@
           </el-row>
         </div>
       </div>
-      <el-button type="primary" size="mini">保存</el-button>
-      <el-button type="danger" size="mini">删除</el-button>
-      <el-button size="mini">返回</el-button>
+      <el-button type="primary" size="mini" @click="confirm">保存</el-button>
+      <el-button type="danger" size="mini" @click="deleteRow">删除</el-button>
+      <el-button size="mini" @click="openUserDialog({})">返回</el-button>
     </el-dialog>
-    <!--&lt;!&ndash;用户授权弹框&ndash;&gt;-->
-    <!--<el-dialog title="用户授权列表" :visible.sync="showPowerDialog"></el-dialog>-->
-    <!--&lt;!&ndash;用户角色&ndash;&gt;-->
-    <!--<el-dialog title="角色管理" :visible.sync="showRoleDialog">-->
-    <!--</el-dialog>-->
   </div>
 </template>
 

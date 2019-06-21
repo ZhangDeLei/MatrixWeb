@@ -38,7 +38,7 @@ export default {
     openEditDialog(obj) {
       this.showNoticDialog = !this.showNoticDialog
       this.noticeForm = obj
-      this.isUpdate = obj.Id === undefined ? false : true
+      this.isUpdate = obj.Id !== undefined
     },
     handlerChangeSystem(e) {
       this.systemList.forEach(t => {
@@ -66,15 +66,9 @@ export default {
               this.getData(1)
             })
           } else {
-            var tzoffset = (new Date()).getTimezoneOffset() * 60000
-            var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -5)
-            console.log(localISOTime)
-
             var date = new Date()
             var isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString()
-            console.log(isoDate)
             this.noticeForm.CreateTime = isoDate
-            console.log(this.noticeForm)
             this.http.post('api/v1/PtNotice', this.noticeForm).then(res => {
               this.$message.success('保存成功')
               this.openEditDialog({})
