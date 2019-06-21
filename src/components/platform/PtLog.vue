@@ -6,35 +6,16 @@
           <el-form-item label="编号">
             <el-input placeholder="编号" style="width:200px" v-model="searchForm.Id"></el-input>
           </el-form-item>
-          <!--<el-form-item label="分类">-->
-            <!--<el-select placeholder="分类" v-model="searchForm.LogTypeId">-->
-              <!--<el-option></el-option>-->
-            <!--</el-select>-->
-          <!--</el-form-item>-->
+          <el-form-item label="分类">
+            <el-select placeholder="分类" v-model="searchForm.LogTypeId" clearable>
+              <el-option value="重置密码" label="重置密码"></el-option>
+              <el-option value="群发通知" label="群发通知"></el-option>
+              <el-option value="系统异常" label="系统异常"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="内容">
             <el-input placeholder="内容" v-model="searchForm.Content"></el-input>
           </el-form-item>
-          <!--<el-form-item label="分组">-->
-          <!--<el-cascader-->
-          <!--clearable-->
-          <!--:options="groupList"-->
-          <!--:props="{ expandTrigger: 'hover' ,label:'Name',value:'Id',checkStrictly: true}"-->
-          <!--@change="handleUserGroupChange"></el-cascader>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="创建时间">-->
-          <!--<el-date-picker-->
-          <!--v-model="begEndDate"-->
-          <!--type="daterange"-->
-          <!--value-format="yyyy-MM-dd"-->
-          <!--format="yyyy-MM-dd"-->
-          <!--range-separator="至"-->
-          <!--start-placeholder="开始日期"-->
-          <!--end-placeholder="结束日期">-->
-          <!--</el-date-picker>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="项目">-->
-          <!--<el-input placeholder="项目" style="width:200px" v-model="searchForm.Item"></el-input>-->
-          <!--</el-form-item>-->
           <el-form-item>
             <el-button type="primary" @click="getData(1)">查询</el-button>
           </el-form-item>
