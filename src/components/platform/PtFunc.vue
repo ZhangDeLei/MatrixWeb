@@ -17,7 +17,7 @@
           </el-col>
           <el-col :span="16">
             <div class="groupform">
-              <el-form ref="funcForm" :rules="rules" :model="funcForm" label-width="80px">
+              <el-form ref="funcForm" :rules="rules" :model="funcForm" label-width="100px">
                 <el-form-item label="编号" prop="Id">
                   <el-input placeholder="请输入编号" v-model="funcForm.Id"></el-input>
                 </el-form-item>

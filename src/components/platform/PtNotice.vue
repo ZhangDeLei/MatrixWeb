@@ -80,7 +80,7 @@
     </div>
     <!--通知编辑-->
     <el-dialog title="通知编辑" :visible.sync="showNoticDialog">
-      <el-form ref="noticeForm" :rules="rules" :model="noticeForm" label-width="80px" size="mini">
+      <el-form ref="noticeForm" :rules="rules" :model="noticeForm" label-width="100px" size="mini">
         <el-form-item label="用户编号" prop="Id">
           <el-input placeholder="请输入用户编号" v-model="noticeForm.UserId"></el-input>
         </el-form-item>

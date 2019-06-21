@@ -2,7 +2,7 @@
   <div class="content-panel">
     <div class="search">
       <div class="item">
-        <el-form size="mini" :inline="true" label-width="80px">
+        <el-form size="mini" :inline="true" label-width="100px">
           <el-form-item label="编号">
             <el-input placeholder="编号" style="width:150px" v-model="searchForm.Id"></el-input>
           </el-form-item>
@@ -14,12 +14,13 @@
           </el-form-item>
           <el-form-item label="用户组">
             <el-cascader
+              style="width:150px"
               v-model="searchForm.UserGroupId"
               :options="groupList"
               :props="{ expandTrigger: 'hover' ,label:'Name',value:'Id',checkStrictly: true}"></el-cascader>
           </el-form-item>
           <el-form-item label="状态">
-            <el-select placeholder="状态" v-model="searchForm.State" clearable>
+            <el-select placeholder="状态" v-model="searchForm.State" clearable style="width:150px">
               <el-option label="可用" value="true"></el-option>
               <el-option label="不可用" value="false"></el-option>
             </el-select>
@@ -39,7 +40,7 @@
             <el-button type="primary" @click="getData(1)">查询</el-button>
           </el-form-item>
         </el-form>
-        <el-form size="mini" :inline="true" label-width="80px">
+        <el-form size="mini" :inline="true" label-width="100px">
           <el-form-item label="注册时间">
             <el-date-picker
               v-model="begEndDate"
@@ -55,10 +56,10 @@
             <el-input placeholder="地址" style="width:400px" v-model="searchForm.Address"></el-input>
           </el-form-item>
           <el-form-item label="邮箱">
-            <el-input placeholder="邮箱" style="width:200px" v-model="searchForm.Email"></el-input>
+            <el-input placeholder="邮箱" style="width:150px" v-model="searchForm.Email"></el-input>
           </el-form-item>
           <el-form-item label="证件号码">
-            <el-input placeholder="证件号码" style="width:200px" v-model="searchForm.IdNumber"></el-input>
+            <el-input placeholder="证件号码" style="width:150px" v-model="searchForm.IdNumber"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -88,7 +89,7 @@
           <el-table-column label="分组" prop="UserGroupName"></el-table-column>
           <el-table-column label="来源" prop="SystemName"></el-table-column>
           <el-table-column label="账户余额" prop="Balance"></el-table-column>
-          <el-table-column label="操作" width="130px">
+          <el-table-column label="操作" width="160px">
             <template slot-scope="scope">
               <el-button type="text" @click="openUserDialog(scope.row)">详细</el-button>
               <el-button type="text" @click="openPowerDialog(scope.row)">权限管理</el-button>
@@ -128,7 +129,7 @@
           <el-row>
             <el-col :span="12">
               <div class="tip">基本信息</div>
-              <el-form ref="userForm" :model="userForm" label-width="80px" size="mini" :rules="rules">
+              <el-form ref="userForm" :model="userForm" label-width="100px" size="mini" :rules="rules">
                 <el-form-item label="用户名" prop="UserName">
                   <el-input v-model="userForm.UserName"></el-input>
                 </el-form-item>
@@ -168,7 +169,7 @@
           <el-row>
             <el-col :span="12">
               <div class="tip">详细信息</div>
-              <el-form ref="userForm" :model="userForm" label-width="80px" size="mini">
+              <el-form ref="userForm" :model="userForm" label-width="100px" size="mini">
                 <el-form-item label="性别">
                   <el-radio-group v-model="userForm.Sex">
                     <el-radio label="男士">男士</el-radio>
@@ -215,7 +216,7 @@
             </el-col>
             <el-col :span="12">
               <div class="tip">认证信息</div>
-              <el-form ref="userForm" :model="userForm" label-width="90px" size="mini">
+              <el-form ref="userForm" :model="userForm" label-width="110px" size="mini">
                 <el-form-item label="真实姓名">
                   <el-input v-model="userForm.RealName"></el-input>
                 </el-form-item>

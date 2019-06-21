@@ -54,7 +54,7 @@
     </div>
     <!--角色组编辑-->
     <el-dialog title="角色组编辑" :visible.sync="showRoleGroupDialog">
-      <el-form label-width="80px" ref="roleGroupForm" :model="roleGroupForm" :rules="rules" size="mini">
+      <el-form label-width="100px" ref="roleGroupForm" :model="roleGroupForm" :rules="rules" size="mini">
         <el-form-item label="名称" prop="Name">
           <el-input placeholder="请输入名称" v-model="roleGroupForm.Name"></el-input>
         </el-form-item>

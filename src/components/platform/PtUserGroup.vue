@@ -13,7 +13,7 @@
           </el-col>
           <el-col :span="16">
             <div class="groupform">
-              <el-form size="mini" label-width="100px" :model="userGroupForm" ref="userGroupForm">
+              <el-form size="mini" label-width="120px" :model="userGroupForm" ref="userGroupForm">
                 <el-form-item label="名称" prop="Name">
                   <el-input placeholder="用户组名称" v-model="userGroupForm.Name"/>
                 </el-form-item>

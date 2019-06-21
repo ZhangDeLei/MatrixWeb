@@ -49,7 +49,7 @@
     </div>
     <!--系统编辑-->
     <el-dialog title="系统编辑" :visible.sync="showSystemEditDialog">
-      <el-form ref="systemForm" :model="systemForm" :rules="rules" label-width="80px">
+      <el-form ref="systemForm" :model="systemForm" :rules="rules" label-width="100px">
         <el-form-item label="编号" prop="Id">
           <el-input placeholder="请输入编号" v-model="systemForm.Id"></el-input>
         </el-form-item>

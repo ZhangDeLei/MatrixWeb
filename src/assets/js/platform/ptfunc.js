@@ -26,6 +26,7 @@ export default {
   mounted() {
     this.getAllFuncType()
     this.getAllSystem()
+    this.handlerChangeSystemSearch(this.store.state.user.SystemId)
   },
   methods: {
     getAllFuncType() {

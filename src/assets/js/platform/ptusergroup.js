@@ -51,13 +51,17 @@ export default {
       this.userGroupForm = obj
     },
     deleteRow() {
-      this.$confirm('确认删除该用户组吗？').then(() => {
-        this.http.dele('api/v1/PtUserGroup/' + this.userGroupForm.Id).then(res => {
-          this.$message.success('删除成功')
-          this.userGroupForm = {}
-          this.getData(1)
+      if (this.userGroupForm.Id) {
+        this.$confirm('确认删除该用户组吗？').then(() => {
+          this.http.dele('api/v1/PtUserGroup/' + this.userGroupForm.Id).then(res => {
+            this.$message.success('删除成功')
+            this.userGroupForm = {}
+            this.getData(1)
+          })
         })
-      })
+      } else {
+        this.$message.error('请选择一条数据')
+      }
     },
     confirm() {
       this.$refs['userGroupForm'].validate(v => {

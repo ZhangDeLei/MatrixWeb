@@ -34,7 +34,7 @@
             </template>
           </el-table-column>
           <el-table-column label="备注" prop="Notes"></el-table-column>
-          <el-table-column label="操作" width="150px">
+          <el-table-column label="操作" width="180px">
             <template slot-scope="scope">
               <el-button type="text" @click="openRoleDialog(scope.row)">详细</el-button>
               <el-button type="text" @click="openRoleDataDialog(scope.row)">自定义数据</el-button>
@@ -75,7 +75,7 @@
         title="角色详情编辑"
         :visible.sync="showRoleDataEditDialog"
         append-to-body>
-        <el-form :model="roleDataForm" ref="roleDataForm" :rules="roleDataRules" label-width="80px" size="mini">
+        <el-form :model="roleDataForm" ref="roleDataForm" :rules="roleDataRules" label-width="100px" size="mini">
           <el-form-item label="编码" prop="Code">
             <el-input placeholder="请输入编码" v-model="roleDataForm.Code"></el-input>
           </el-form-item>
@@ -91,7 +91,7 @@
     <el-dialog title="角色编辑" :visible.sync="showRoleDialog">
       <el-row>
         <el-col :span="12">
-          <el-form label-width="80px" ref="roleFrom" :model="roleFrom" :rules="rules" size="mini">
+          <el-form label-width="100px" ref="roleFrom" :model="roleFrom" :rules="rules" size="mini">
             <el-form-item label="名称" prop="Name">
               <el-input placeholder="请输入名称" v-model="roleFrom.Name"></el-input>
             </el-form-item>
