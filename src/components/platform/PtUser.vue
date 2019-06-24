@@ -192,17 +192,14 @@
                   <el-input v-model="userForm.Email"></el-input>
                 </el-form-item>
                 <el-form-item label="区域">
-                  <el-select v-model="userForm.Country" placeholder="国家" style="width:30%">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                  <el-select v-model="userForm.Country" placeholder="国家" style="width:30%" @change="handlerChangeCountry">
+                    <el-option :label="item.Name" :value="item.Name" v-for="item in countyList" :key="item.Id"></el-option>
                   </el-select>
-                  <el-select v-model="userForm.Province" placeholder="省" style="width:30%">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                  <el-select v-model="userForm.Province" placeholder="省" style="width:30%" @change="handlerChangeProvince">
+                    <el-option :label="item.Name" :value="item.Name" v-for="item in provinceList" :key="item.Id"></el-option>
                   </el-select>
                   <el-select v-model="userForm.City" placeholder="市" style="width:30%">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                    <el-option :label="item.Name" :value="item.Name" v-for="item in cityList" :key="item.Id"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="详细地址">

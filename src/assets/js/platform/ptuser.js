@@ -26,6 +26,9 @@ export default {
       checkRoleData: [],
       checkRoleList: [],
       roleGroupData: [],
+      countyList: [],
+      provinceList: [],
+      cityList: [],
       systemId: '',
       roleGroupId: undefined
     }
@@ -34,8 +37,19 @@ export default {
     this.getUserGroupData()
     this.getAllSystem()
     this.getData(1)
+    this.getAddress(0, 0).then(res => {
+      this.countyList = res
+    })
   },
   methods: {
+    getAddress(level, parentId) {
+      return new Promise((resolve, reject) => {
+        var param = {CurPage: 1, PageSize: 1000, LevelIndex: level, ParentId: parentId}
+        this.http.post('api/v1/PtAddress/GetPageData', param).then(res => {
+          resolve(res.list)
+        })
+      })
+    },
     fastImportRole() {
       if (this.roleGroupId) {
         this.http.post('api/v1/PtRoleGroupLink/GetPageData', {
@@ -126,6 +140,24 @@ export default {
         }
       })
       return data
+    },
+    handlerChangeCountry(e) {
+      this.countyList.forEach(t => {
+        if (t.Name === e) {
+          this.getAddress(1, t.Id).then(res => {
+            this.provinceList = res
+          })
+        }
+      })
+    },
+    handlerChangeProvince(e) {
+      this.provinceList.forEach(t => {
+        if (t.Name === e) {
+          this.getAddress(2, t.Id).then(res => {
+            this.cityList = res
+          })
+        }
+      })
     },
     handleUserGroupChange(e) {
       this.userForm.UserGroupId = 0
